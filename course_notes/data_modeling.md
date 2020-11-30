@@ -156,7 +156,7 @@ If you want to update data, you want to do it in just 1 place. Therefore, you us
 Useful when using heavy reads (select) on your database where you want to avoid slow JOINS. Denormalization comes after normalization. This is at the expense of writing (insert, update, delete) performance (and complexity) by having redundant data. Try to reduce the number of JOINS.
 
 ## 2.4 Fact and Dimension tables
-Fact and Dimension tables together create a Data Model. Fact tables consists of the measurements, metrics or facts of a business process. "made up of facts", things that actually happened, e.g. transactions. Fact tables show foreign keys to dimension tables. Dimension: a structure that categorizes facts and measures in order to enable to answer business questions, e.g. people, products, place, time. It answers the When, Who, and What.
+Fact and Dimension tables together create a Data Model. Fact tables consists of the measurements, metrics or facts of a business process. "made up of facts", things that actually happened, e.g. transactions. Fact tables show **foreign keys** to dimension tables. Dimension: a structure that categorizes facts and measures in order to enable to answer business questions, e.g. people, products, place, time. It answers the When, Who, and What.
 
 Two of the most popular schemas for data warehouses are:
 1. Star schema
@@ -183,7 +183,7 @@ Logical arrangement of tables in a multi-dimensional database represented by cen
 There are multiple contraints possible for the CREATE statement:
 * NOT NULL
 * UNIQUE: on 1, or multiple columns (e.g. UNIQUE (customer_id, store_id, spent))
-* PRIMARY KEY (group of columns is called Composite Key): by default has the NOT NULL and UNIQUE constraints in it.
+* PRIMARY KEY (group of columns is called Composite Key): by default has **both** the NOT NULL and UNIQUE constraints in it.
 
 UPSERT: terminology for UPDATE and INSERT on an existing table. When there is a conflict in the data, you have multiple options that you can add to the INSERT statement:
 
