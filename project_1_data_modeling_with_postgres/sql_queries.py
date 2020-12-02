@@ -9,11 +9,12 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # CREATE TABLES
 
 # Fact table with foreign keys from the time, users, artists, and songs tables.
+# Foreign keys without NOT NULL can still contain NULL values even if the primary key contains no NULL values. It is possible to insert rows in the table when the foreign key is not known yet.
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays (
         songplay_id serial PRIMARY KEY, 
-        start_time timestamp REFERENCES time(start_time), 
-        user_id int REFERENCES users(user_id), 
+        start_time timestamp NOT NULL REFERENCES time(start_time), 
+        user_id int NOT NULL REFERENCES users(user_id), 
         level varchar, 
         song_id varchar REFERENCES songs(song_id), 
         artist_id varchar REFERENCES artists(artist_id), 
@@ -30,7 +31,7 @@ user_table_create = ("""
         first_name varchar, 
         last_name varchar, 
         gender varchar, 
-        level varchar
+        level varchar NOT NULL
     );
 """)
 
@@ -38,10 +39,10 @@ user_table_create = ("""
 song_table_create = ("""
     CREATE TABLE IF NOT EXISTS songs (
         song_id varchar PRIMARY KEY, 
-        title varchar, 
-        artist_id varchar REFERENCES artists(artist_id), 
+        title varchar NOT NULL, 
+        artist_id varchar NOT NULL REFERENCES artists(artist_id), 
         year int, 
-        duration numeric
+        duration numeric NOT NULL
     );
 """)
 
@@ -49,7 +50,7 @@ song_table_create = ("""
 artist_table_create = ("""
     CREATE TABLE IF NOT EXISTS artists (
         artist_id varchar PRIMARY KEY, 
-        name varchar, 
+        name varchar NOT NULL, 
         location varchar, 
         latitude numeric, 
         longitude numeric
@@ -80,7 +81,7 @@ songplay_table_insert = ("""
 user_table_insert = ("""
     INSERT INTO users (user_id, first_name, last_name, gender, level)
     VALUES (%s, %s, %s, %s, %s)
-    ON CONFLICT (user_id) DO NOTHING;
+    ON CONFLICT (user_id) DO UPDATE SET level=EXCLUDED.level;
 """)
 
 song_table_insert = ("""
