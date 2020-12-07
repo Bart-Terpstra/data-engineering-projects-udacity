@@ -88,7 +88,7 @@ Terminology:
 * Primary key: made up of partition key and clustering columns
 * Columns: clustering and data columns, labeled element
 
-![basic elements apache cassandra](png/basics_apache.png "basic elements apache cassandra")
+![basic elements apache cassandra](png/basics_apache.PNG "basic elements apache cassandra")
 
 ### 1.4 Apache Cassandra
 "Provides scalability and high availability with high performance. Linear scalability and proven fault-tolerance make it the ideal platform for mission-critical data" Uses its own query language: CQL, which is very similar to SQL. Used by Uber, Netflix. It is optimized for **writes**. Used Python wrapper: cassandra-driver.
@@ -218,7 +218,7 @@ Theorem saying its impossible for a distributed data store to simultaneously pro
 **Denormalization**
 Critical in Apache Cassandra. Think about the queries that you want to make on the database, they are leading for the design and you need to know this in advance. Making JOINS is not possible in Cassandra. Using 1 table per query is a good strategy.
 
-![query comparison](png/sql_vs_nosql.png "query comparison")
+![query comparison](png/sql_vs_nosql.PNG "query comparison")
 
 **CQL: Cassandra Query Language**
 Very similar to SQL, but lacks JOINS, GROUP BY and subqueries.
