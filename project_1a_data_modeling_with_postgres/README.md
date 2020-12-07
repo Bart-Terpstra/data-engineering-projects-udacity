@@ -1,4 +1,4 @@
-# Project 1: Data Modeling with Postgres
+# Project 1a: Data Modeling with Postgres
 
 ## Project Introduction
 Startup Sparkify wants to analyze the data from collected from its music streaming app. The data consists of songs and user activity on the app. They mainly want to understand to what songs the users are listening to. For this purpose, Sparkify wants a Postgres database optimized for queries to perform songplay analysis. I designed a database schema and ETL pipeline. The database contains all relevant data in a fact table and dimension tables.

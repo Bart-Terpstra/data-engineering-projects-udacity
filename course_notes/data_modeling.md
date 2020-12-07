@@ -189,3 +189,58 @@ UPSERT: terminology for UPDATE and INSERT on an existing table. When there is a 
 
 * ON CONFLICT (customer_id) DO NOTHING;
 * ON CONFLICT (customer_id) DO UPDATE SET customer_street  = EXCLUDED.customer_street;
+
+## Lesson 3: Data Modeling for Non-Relational Databases (NoSQL)
+
+**When to NOT use SQL:**
+* Need high availability in the data: system always up and running
+* Have large amounts of data
+* Need for linear scalability: increase performance linearly by increasing more nodes (servers, VMs, Docker container, etc.)
+* Low latency: short data transfer delays
+* Need fast reads and writes
+
+**Apache Cassandra**
+* Open source - downnloadable
+* Created at Facebook to handle big data challenges
+* Used by Uber, Netflix, Twitter, Facebook, etc.
+* Every node in Cassandra is connected to every node (=peer-to-peer database architecture)
+* Will be using the cassandra-driver for Python.
+
+**Distributed databases**
+In a distributed database, a horizontally scaled database, you will need copies of the data to have high availability (nodes will fail).
+
+**Eventual consistency**
+A consistency model in distributed computing to achieve high availability that informally guarantees that, if no new updates are made to an item, all accesses to that item will return the last updated value, i.e. each copy of the data is the same. If there are new changes, the data may be different in different locations (for the duration of milliseconds).
+
+**CAP Theorem**
+Theorem saying its impossible for a distributed data store to simultaneously provide more than 2 out of 3 guarantees: consistency (every read gives the latest and correct piece of data or an error), availability (every request is received and responded to - ignoring whether that data is the latest update), partition tolerance (system continues to work regardless of losing network connectivity). Cassandra suits availability (linearly scalable) and partition tolerance. It is optimized for fast writes.
+
+**Denormalization**
+Critical in Apache Cassandra. Think about the queries that you want to make on the database, they are leading for the design and you need to know this in advance. Making JOINS is not possible in Cassandra. Using 1 table per query is a good strategy.
+
+<img src="png/sql_vs_nosql.PNG" alt="query comparison">
+
+**CQL: Cassandra Query Language**
+Very similar to SQL, but lacks JOINS, GROUP BY and subqueries.
+
+**Terminology (more in CH 1.3 and 1.4)**
+* Cluster: database connection
+* Keyspace: collection of tables (database). Connecting to the Keyspace is like ssetting up a session in Postgres.
+* Clustering column: makes the primary key unique.
+
+**Primary Key**
+The first element of the primary key is the partition key. The PRIMARY KEY is made up of either just the PARTITION KEY or may also include additional CLUSTERING COLUMNS. A Simple PRIMARY KEY is just one column that is also the PARTITION KEY. A COMPOSITE/COMPOUND PRIMARY KEY is made up of more than one column and will assist in creating a unique value in your retrieval queries. The PARTITION KEY will determine the distribution of data across the system. The partition key's row value will be hashed (turned into a number) and stored on the node in the system that holds that range of values.
+
+**Clustering columns**
+The clustering column sorts the data in ascending order. If more than 1 clustering columns is used, the data is sorted based on the order of adding clustering columns to the primary key. Example of a COMPOSITE KEY consisting of multiple PARTITION and CLUSTERING keys:
+`PRIMARY KEY((k_part_one, k_part_two), k_clust_one, k_clust_two, k_clust_three)`
+
+* The `Partition Key` is responsible for data distribution across your nodes, and is the minimum-specifier needed to perform a query using a `where` clause, so you always need to specify the partition key in the query. It is the primary lookup to find a set of rows, i.e. a partition.
+* The `Clustering Key` is responsible for data sorting within the partition.
+* The `Primary Key` is equivalent to the Partition Key in a single-field-key table (i.e. Simple).
+* The `Composite/Compound Key` is just any multiple-column primary key
+
+Additional information: https://docs.datastax.com/en/landing_page/doc/landing_page/current.html
+
+**WHERE clause**
+Data modeling in Cassandra is query focused where the focus is on the WHERE clause. Add the columns in the same order to the WHERE clause as they were added to the primary key. You cannot use only the last clustering columns, you will have to use them all. You can use only the first clustering column. The WHERE statement allows us to do fast reads.
