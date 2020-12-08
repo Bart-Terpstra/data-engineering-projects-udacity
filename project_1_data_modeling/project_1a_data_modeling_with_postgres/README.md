@@ -22,7 +22,7 @@ The user activity data consists of log files in JSON format partitioned by year 
 > log_data/2018/11/2018-11-12-events.json
 
 *Content:*
-![Sample log data](images/log_data.png "Sample log data")
+![Sample log data](images/logdata.png "Sample log data")
 
 ## Database Schema
 
